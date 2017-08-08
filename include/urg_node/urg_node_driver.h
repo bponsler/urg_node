@@ -107,8 +107,8 @@ private:
   rclcpp::node::Node::SharedPtr nh_;
   rclcpp::node::Node::SharedPtr pnh_;
 
-  boost::thread diagnostics_thread_;
-  boost::thread scan_thread_;
+  std::thread diagnostics_thread_;
+  std::thread scan_thread_;
 
   boost::shared_ptr<urg_node::URGCWrapper> urg_;
   //boost::shared_ptr<dynamic_reconfigure::Server<urg_node::URGConfig> > srv_;  ///< Dynamic reconfigure server

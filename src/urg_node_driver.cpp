@@ -328,7 +328,7 @@ void UrgNode::updateDiagnostics()
   while (!close_diagnostics_)
   {
     diagnostic_updater_->update();
-    boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 }
 
@@ -498,7 +498,7 @@ void UrgNode::scanThread()
     {
       if (!connect())
       {
-        boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         continue;  // Connect failed, sleep, try again.
       }
     }
@@ -528,7 +528,7 @@ void UrgNode::scanThread()
       srv_.reset(new dynamic_reconfigure::Server<urg_node::URGConfig>(pnh_));
       // Configure limits (Must do this after creating the urgwidget)
       update_reconfigure_limits();
-      srv_->setCallback(boost::bind(&UrgNode::reconfigure_callback, this, _1, _2));
+      srv_->setCallback(std::bind(&UrgNode::reconfigure_callback, this, _1, _2));
 #endif
     }
 
@@ -616,7 +616,7 @@ void UrgNode::scanThread()
 
       if (service_yield_)
       {
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         service_yield_ = false;
       }
 
@@ -661,10 +661,10 @@ void UrgNode::run()
 
   // Now that we are setup, kick off diagnostics.
   close_diagnostics_ = false;
-  diagnostics_thread_ = boost::thread(boost::bind(&UrgNode::updateDiagnostics, this));
+  diagnostics_thread_ = std::thread(std::bind(&UrgNode::updateDiagnostics, this));
 
   // Start scanning now that everything is configured.
   close_scan_ = false;
-  scan_thread_ = boost::thread(boost::bind(&UrgNode::scanThread, this));
+  scan_thread_ = std::thread(std::bind(&UrgNode::scanThread, this));
 }
 }  // namespace urg_node
