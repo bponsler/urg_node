@@ -150,7 +150,7 @@ bool UrgNode::updateStatus()
 {
   bool result = false;
   service_yield_ = true;
-  boost::mutex::scoped_lock lock(lidar_mutex_);
+  std::unique_lock<std::mutex> lock(lidar_mutex_);
 
   if (urg_)
   {
@@ -294,7 +294,7 @@ void UrgNode::update_reconfigure_limits()
 
 void UrgNode::calibrate_time_offset()
 {
-  boost::mutex::scoped_lock lock(lidar_mutex_);
+  std::unique_lock<std::mutex> lock(lidar_mutex_);
   if (!urg_)
   {
     //ROS_DEBUG_THROTTLE(10, "Unable to calibrate time offset. Not Ready.");
@@ -403,7 +403,7 @@ bool UrgNode::connect()
 {
   // Don't let external access to retrieve
   // status during the connection process.
-  boost::mutex::scoped_lock lock(lidar_mutex_);
+  std::unique_lock<std::mutex> lock(lidar_mutex_);
 
   try
   {
@@ -573,7 +573,7 @@ void UrgNode::scanThread()
       // Don't allow external access during grabbing the scan.
       try
       {
-        boost::mutex::scoped_lock lock(lidar_mutex_);
+        std::unique_lock<std::mutex> lock(lidar_mutex_);
         if (publish_multiecho_)
         {
           const sensor_msgs::msg::MultiEchoLaserScan::SharedPtr msg(new sensor_msgs::msg::MultiEchoLaserScan());

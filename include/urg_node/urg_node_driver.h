@@ -116,7 +116,7 @@ private:
   boost::shared_ptr<diagnostic_updater::HeaderlessTopicDiagnostic> laser_freq_;
   boost::shared_ptr<diagnostic_updater::HeaderlessTopicDiagnostic> echoes_freq_;
 
-  boost::mutex lidar_mutex_;
+  std::mutex lidar_mutex_;
 
   /* Non-const device properties.  If you poll the driver for these
   * while scanning is running, then the scan will probably fail.
