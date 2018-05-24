@@ -11,12 +11,9 @@ Create a folder for urg and clone this repo
 ```
 mkdir -p ~/ros2_ws/src/urg
 cd ~/ros2_ws/src/urg
-git clone https://github.com/bponsler/urg_node
+git clone -b ros2-devel https://github.com/bponsler/urg_node
 ```
-
-
-Copy over urg.repos in this repo into your workspace
-
+Clone dependencies 
 ```
 cd ~/ros2_ws/src/urg/urg_node
 vcs import ../ < urg.repos
